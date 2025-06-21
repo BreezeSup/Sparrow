@@ -1,0 +1,104 @@
+name: Create 100 Custom Issues
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  post_issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Post 100 Customized Issues with Metadata
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issues = [
+              { "title": "🐛 Bug: QR code scan fails intermittently", "body": "QR scanner sometimes freezes on certain Android versions, preventing import of PSBTs.", "labels": ["bug", "mobile", "qr"] },
+              { "title": "🐛 Bug: Wrong change address in multisig wallet", "body": "Change address selected is not from the correct multisig derivation path.", "labels": ["bug", "multisig", "addressing"] },
+              { "title": "💡 Feature: Tor proxy auto-detection", "body": "Add automatic detection and configuration for Tor proxy to improve privacy UX.", "labels": ["feature", "privacy", "tor"] },
+              { "title": "🐛 Bug: Importing Electrum format seed throws error", "body": "Electrum seeds fail to import with 'invalid mnemonic length' error.", "labels": ["bug", "import", "seed"] },
+              { "title": "💬 Feature: Add USD balance display option", "body": "Enable toggle to show fiat (USD) equivalent of wallet balance and transactions.", "labels": ["feature", "fiat", "UI"] },
+              { "title": "🐛 Bug: Transaction history does not refresh", "body": "After broadcasting, wallet view does not auto-update with new transaction.", "labels": ["bug", "UI", "transactions"] },
+              { "title": "🔐 Feature: Biometric unlock support", "body": "Add biometric unlock (TouchID, FaceID) to enhance security for Sparrow mobile.", "labels": ["feature", "security", "mobile"] },
+              { "title": "📄 Docs: Clarify derivation paths for BIP-85", "body": "BIP-85 child key derivation lacks examples in docs.", "labels": ["documentation", "BIP85"] },
+              { "title": "💡 Feature: Wallet sync progress bar", "body": "Show a sync progress bar while wallet is loading UTXOs and transactions.", "labels": ["feature", "UX", "sync"] },
+              { "title": "🐛 Bug: Cannot paste xpub into descriptor field", "body": "Pasting xpub into descriptor editor fails silently unless typed manually.", "labels": ["bug", "descriptor", "UI"] },
+              { "title": "💡 Feature: Enable watch-only wallet export", "body": "Add ability to export descriptor of watch-only wallets for import into other tools.", "labels": ["feature", "wallet", "export"] },
+              { "title": "🐛 Bug: Frozen coins not marked clearly", "body": "Frozen UTXOs do not show consistent visual cue in transaction builder.", "labels": ["bug", "UTXO", "UI"] },
+              { "title": "📱 Feature: Native Android support", "body": "Provide a lightweight native Android version of Sparrow for mobile usage.", "labels": ["feature", "android", "mobile"] },
+              { "title": "📈 Feature: Coin control UTXO sorting", "body": "Allow sorting of UTXOs by value, confirmations, and label in coin control screen.", "labels": ["feature", "UX", "UTXO"] },
+              { "title": "🐛 Bug: Incorrect fee displayed after coin selection", "body": "Fee calculation does not refresh when UTXO selection changes manually.", "labels": ["bug", "fee", "transactions"] },
+              { "title": "🛡️ Feature: PGP signature validation for downloads", "body": "Show a simple way to verify installer signature with PGP on the website.", "labels": ["feature", "security", "download"] },
+              { "title": "📄 Docs: Add step-by-step multisig setup guide", "body": "Multisig setup documentation needs screenshots and clearer examples.", "labels": ["documentation", "multisig", "setup"] },
+              { "title": "🐛 Bug: Wrong derivation path with Trezor wallets", "body": "Using Trezor with SegWit produces unexpected derivation path warning.", "labels": ["bug", "hardware-wallet", "Trezor"] },
+              { "title": "💬 Feature: Custom background themes", "body": "Let users customize theme colors or import a dark/light theme JSON.", "labels": ["feature", "UI", "theme"] },
+              { "title": "🐛 Bug: App freezes when loading 1000+ UTXOs", "body": "Wallets with high UTXO count cause UI to hang on load.", "labels": ["bug", "performance", "large-wallet"] },
+              { "title": "📊 Feature: UTXO distribution chart", "body": "Add pie or bar chart showing UTXO value distribution in wallet overview.", "labels": ["feature", "analytics", "UI"] },
+              { "title": "📦 Feature: Export wallet to Coldcard JSON", "body": "Enable export of watch-only wallet to Coldcard-compatible JSON format.", "labels": ["feature", "Coldcard", "export"] },
+              { "title": "🐛 Bug: Incorrect change labeling in transactions", "body": "Change outputs appear without 'change' label causing confusion in history.", "labels": ["bug", "transactions", "label"] },
+              { "title": "💡 Feature: Add broadcast via Bitcoin Core option", "body": "Let users broadcast transactions via Bitcoin Core node instead of Electrum servers.", "labels": ["feature", "node", "transactions"] },
+              { "title": "🔐 Feature: Auto-lock after inactivity", "body": "Add configurable timeout to auto-lock wallet after user inactivity.", "labels": ["feature", "security", "UX"] },
+              { "title": "📄 Docs: Explain difference between PSBT roles", "body": "Clarify sender vs signer roles in PSBT flow, especially for multisig.", "labels": ["documentation", "PSBT", "multisig"] },
+              { "title": "🐛 Bug: Import of descriptor fails for 'wsh' with xpubs", "body": "Certain valid 'wsh()' descriptors with xpubs produce parse error.", "labels": ["bug", "descriptor", "multisig"] },
+              { "title": "💡 Feature: Add BIP-329 label export support", "body": "Export wallet metadata in BIP-329 format for interoperability.", "labels": ["feature", "labels", "export"] },
+              { "title": "📱 Feature: NFC support for PSBT transfer", "body": "Enable NFC to transfer partially signed PSBTs between devices securely.", "labels": ["feature", "PSBT", "mobile"] },
+              { "title": "🐛 Bug: Electrum server disconnect shows blank status", "body": "UI shows blank status bar if disconnected from Electrum server.", "labels": ["bug", "UI", "network"] },
+              { "title": "🧪 Feature: Testnet wallet generation toggle", "body": "Allow users to generate testnet wallets more easily for testing.", "labels": ["feature", "testnet", "wallet"] },
+              { "title": "🐛 Bug: Drag and drop PSBT file fails silently", "body": "Dragging a PSBT onto the app window does nothing without feedback.", "labels": ["bug", "PSBT", "UI"] },
+              { "title": "💡 Feature: Show derivation path per address", "body": "In address tab, add derivation path display for debugging purposes.", "labels": ["feature", "addresses", "debug"] },
+              { "title": "📦 Feature: JSON-RPC interface for automation", "body": "Provide a local JSON-RPC interface to query and control Sparrow wallets programmatically.", "labels": ["feature", "automation", "API"] },
+              { "title": "📄 Docs: Add guide to verify signatures with Bitcoin Core", "body": "Explain how to verify Sparrow-signed messages in Core.", "labels": ["documentation", "signing"] },
+              { "title": "🐛 Bug: Fee rates not saved in settings", "body": "Custom fee rates entered are not persisted across sessions.", "labels": ["bug", "fee", "settings"] },
+              { "title": "💬 Feature: Show tx preview before final signing", "body": "Add preview step before final transaction signing including all inputs/outputs.", "labels": ["feature", "transactions", "UX"] },
+              { "title": "🛡️ Feature: Show PSBT fingerprint confirmation", "body": "When signing PSBT, show expected master fingerprint to confirm sender.", "labels": ["feature", "security", "PSBT"] },
+              { "title": "🐛 Bug: Scrollbar missing in output label field", "body": "Output label input field lacks scrollbar when multiline text entered.", "labels": ["bug", "UI", "labeling"] },
+              { "title": "💡 Feature: Support Bitcoin Core pruned node", "body": "Allow users to connect to pruned full nodes for balance and history queries.", "labels": ["feature", "node", "sync"] },
+              { "title": "🐛 Bug: Wallet file path with spaces fails to load", "body": "Wallets saved in directories with space in path do not open properly.", "labels": ["bug", "file", "paths"] },
+              { "title": "🔁 Feature: Refresh transaction mempool status", "body": "Add manual 'refresh' button to recheck mempool confirmation status.", "labels": ["feature", "transactions", "mempool"] },
+              { "title": "📱 Feature: Push notification integration", "body": "Notify users of incoming transactions or spend activity via desktop/mobile notifications.", "labels": ["feature", "notifications"] },
+              { "title": "🐛 Bug: PSBTs with nested scripts rejected", "body": "Certain complex PSBTs using nested scripts are rejected during signing.", "labels": ["bug", "PSBT", "scripts"] },
+              { "title": "💬 Feature: Recent file menu", "body": "Add 'recent wallets' list to file menu for quick access.", "labels": ["feature", "UI", "file"] },
+              { "title": "📈 Feature: Historical balance chart", "body": "Plot wallet balance over time in wallet dashboard.", "labels": ["feature", "analytics", "balance"] },
+              { "title": "🔐 Feature: Password hint in unlock screen", "body": "Allow optional password hint to show during unlock for encrypted wallets.", "labels": ["feature", "security", "UX"] },
+              { "title": "🐛 Bug: Cannot sign message with SegWit address", "body": "Sign message feature rejects valid bech32 addresses.", "labels": ["bug", "signing", "SegWit"] },
+              { "title": "📄 Docs: Signing message verification compatibility list", "body": "Add documentation on which platforms can verify messages signed by Sparrow.", "labels": ["documentation", "signing"] },
+              { "title": "💬 Feature: Transaction export to PDF", "body": "Allow exporting a printable PDF receipt of any transaction for record-keeping.", "labels": ["feature", "export", "transactions"] },
+              { "title": "🔄 Feature: Detect and warn on duplicate wallet import", "body": "When a wallet file is imported that already exists, show a warning or option to overwrite.", "labels": ["feature", "wallet", "import"] },
+              { "title": "🐛 Bug: Double click in label field causes crash", "body": "Double clicking rapidly in transaction label field triggers UI crash.", "labels": ["bug", "crash", "labeling"] }
+            ];
+
+            const milestoneTitle = "v1.0";
+            const assignees = ["BreezeSup"];
+
+            const { data: milestones } = await github.rest.issues.listMilestones({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            const milestone = milestones.find(m => m.title === milestoneTitle);
+            if (!milestone) {
+              throw new Error(`❌ Milestone '${milestoneTitle}' not found. Please create it on GitHub first.`);
+            }
+
+            for (const issue of issues) {
+              try {
+                const response = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issue.title,
+                  body: issue.body,
+                  labels: issue.labels || [],
+                  assignees,
+                  milestone: milestone.number
+                });
+
+                console.log(`✅ Created: ${response.data.title} — ${response.data.html_url}`);
+              } catch (err) {
+                console.error(`❌ Failed to create: ${issue.title}\n${err.message}`);
+              }
+            }
